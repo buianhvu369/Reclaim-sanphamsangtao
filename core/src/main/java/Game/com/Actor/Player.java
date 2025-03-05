@@ -12,12 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Player extends MyActor {
     Animation<TextureRegion> animationLeft;
     Animation<TextureRegion> animationRight;
-    Animation<TextureRegion> animationUp;
-    Animation<TextureRegion> animationDown;
     Animation<TextureRegion> animationDie;
     Animation<TextureRegion> animationWin;
 
     float time;
+    String lastDirectionHaiBen = "R";
     String direction = "R";
 
     Sound walking1;
@@ -28,49 +27,52 @@ public class Player extends MyActor {
 
     public Player(float x, float y, Stage s) {
         super(x, y, s);
-        Texture texture = new Texture("man1.png");
-        Texture textureWin = new Texture("man-win.png");
-        int cot = 19;
+        Texture textureLeft = new Texture("playerleft.png");
+        Texture textureRight = new Texture("playerright.png");
+//        Texture textureWin = new Texture("man-win.png");
+        int cot = 6;
         int hang = 1;
-        TextureRegion[][] frameBuff = TextureRegion.split(texture, texture.getWidth() / cot, texture.getHeight() / hang);
+        TextureRegion[][] frameBuffLeft = TextureRegion.split(textureLeft, textureLeft.getWidth() / cot, textureLeft.getHeight() / hang);
 
-        TextureRegion[] frames = new TextureRegion[cot * hang];
+        TextureRegion[][] frameBuffRight = TextureRegion.split(textureRight, textureRight.getWidth() / cot, textureRight.getHeight() / hang);
+        TextureRegion[] framesLeft = new TextureRegion[cot * hang];
         int index = 0;
         for (int i = 0; i < hang; i++) {
             for (int j = 0; j < cot; j++) {
-                frames[index++] = frameBuff[i][j];
+                framesLeft[index++] = frameBuffLeft[i][j];
             }
         }
 
-        TextureRegion[][] frameBuffWin = TextureRegion.split(textureWin, textureWin.getWidth() / 3, textureWin.getHeight() / 1);
-        TextureRegion[] framesWin = new TextureRegion[3];
-        int indexWin = 0;
-        for (int i = 0; i < 1; i++) {
-            for (int j = 0; j < 3; j++) {
-                framesWin[indexWin++] = frameBuffWin[i][j];
+        TextureRegion[] framesRight = new TextureRegion[cot * hang];
+        index = 0;
+        for (int i = 0; i < hang; i++) {
+            for (int j = 0; j < cot; j++) {
+                framesRight[index++] = frameBuffRight[i][j];
             }
         }
 
-        TextureRegion[] framesLeft = {frames[0], frames[1], frames[2]};
-        TextureRegion[] framesDown = {frames[3], frames[4], frames[5]};
-        TextureRegion[] framesRight = {frames[6], frames[7], frames[8]};
-        TextureRegion[] framesUp = {frames[9], frames[10], frames[11]};
-        TextureRegion[] framesDie = {frames[12], frames[13], frames[14], frames[15], frames[16], frames[17], frames[18]};
+//        TextureRegion[][] frameBuffWin = TextureRegion.split(textureWin, textureWin.getWidth() / 3, textureWin.getHeight() / 1);
+//        TextureRegion[] framesWin = new TextureRegion[3];
+//        int indexWin = 0;
+//        for (int i = 0; i < 1; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                framesWin[indexWin++] = frameBuffWin[i][j];
+//            }
+//        }
 
-        animationLeft = new Animation<TextureRegion>(0.1f, framesLeft);
-        animationRight = new Animation<TextureRegion>(0.1f, framesRight);
-        animationDown = new Animation<TextureRegion>(0.1f, framesDown);
-        animationUp = new Animation<TextureRegion>(0.1f, framesUp);
-        animationDie = new Animation<TextureRegion>(0.3f, framesDie);
-        animationWin = new Animation<TextureRegion>(0.3f, framesWin);
+
+//        TextureRegion[] framesDie = {frames[12], frames[13], frames[14], frames[15], frames[16], frames[17], frames[18]};
+
+        animationLeft = new Animation<TextureRegion>(0.05f, framesLeft);
+        animationRight = new Animation<TextureRegion>(0.05f, framesRight);
+//        animationDie = new Animation<TextureRegion>(0.3f, framesDie);
+//        animationWin = new Animation<TextureRegion>(0.3f, framesWin);
 
         animationLeft.setPlayMode(Animation.PlayMode.LOOP);
         animationRight.setPlayMode(Animation.PlayMode.LOOP);
-        animationUp.setPlayMode(Animation.PlayMode.LOOP);
-        animationDown.setPlayMode(Animation.PlayMode.LOOP);
-        animationWin.setPlayMode(Animation.PlayMode.LOOP);
+//        animationWin.setPlayMode(Animation.PlayMode.LOOP);
 
-        setSize(32, 32);
+        setSize(60, 150);
 
         time = 0;
         textureRegion = animationRight.getKeyFrame(time);
@@ -83,6 +85,7 @@ public class Player extends MyActor {
     public void act(float delta) {
         super.act(delta);
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    lastDirectionHaiBen = "L";
                     direction = "L";
                     moveBy(-Master.MAN_SPEED, 0);
                     time += delta;
@@ -90,6 +93,7 @@ public class Player extends MyActor {
                     playSoundWalking(1, delta);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     direction = "R";
+                    lastDirectionHaiBen = "R";
                     moveBy(Master.MAN_SPEED, 0);
                     time += delta;
                     textureRegion = animationRight.getKeyFrame(time);
@@ -98,14 +102,28 @@ public class Player extends MyActor {
                     direction = "D";
                     moveBy(0, -Master.MAN_SPEED);
                     time += delta;
-                    textureRegion = animationDown.getKeyFrame(time);
+                    if(lastDirectionHaiBen.equals("L")){
+                        textureRegion = animationLeft.getKeyFrame(time);
+                    }
+                    if(lastDirectionHaiBen.equals("R")){
+                        textureRegion = animationRight.getKeyFrame(time);
+                    }
                     playSoundWalking(2, delta);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     direction = "U";
                     moveBy(0, Master.MAN_SPEED);
                     time += delta;
-                    textureRegion = animationUp.getKeyFrame(time);
+                    if(lastDirectionHaiBen.equals("L")){
+                        textureRegion = animationLeft.getKeyFrame(time);
+                    }
+                    if(lastDirectionHaiBen.equals("R")){
+                        textureRegion = animationRight.getKeyFrame(time);
+                    }
                     playSoundWalking(2, delta);
+                }else if(lastDirectionHaiBen.equals("L")){
+                    textureRegion = animationLeft.getKeyFrame(0);
+                }else if(lastDirectionHaiBen.equals("R")){
+                    textureRegion = animationRight.getKeyFrame(0);
                 }
 
     }

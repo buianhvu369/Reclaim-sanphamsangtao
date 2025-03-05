@@ -35,6 +35,13 @@ public class GroundScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+        if((float) Gdx.graphics.getWidth() / 2 - game.player.getWidth() /2 <= game.player.getX() && game.player.getX()  <= (float) (1000 - Gdx.graphics.getWidth()/2) - game.player.getWidth()/2) {
+            stage.getCamera().position.x = game.player.getX() + game.player.getWidth() / 2;
+        }
+        if((float) Gdx.graphics.getHeight()/2 - game.player.getHeight()/2 <= game.player.getY() &&  game.player.getY() <=  (1000 - (float) Gdx.graphics.getHeight()/2) - game.player.getHeight()/2){
+            stage.getCamera().position.y = game.player.getY() + game.player.getHeight() /2;
+        }
+
         stage.act();
         stage.draw();
     }
