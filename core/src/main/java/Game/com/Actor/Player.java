@@ -1,5 +1,6 @@
 package Game.com.Actor;
 
+import Game.com.Background.GroundScreen;
 import Game.com.Master;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -24,6 +25,7 @@ public class Player extends MyActor {
     float timeSound = 0;
     boolean isPlaying = false;
     boolean isAlive = true;
+    String itemUse = "hands";
 
     public Player(float x, float y, Stage s) {
         super(x, y, s);
@@ -124,6 +126,9 @@ public class Player extends MyActor {
                     textureRegion = animationLeft.getKeyFrame(0);
                 }else if(lastDirectionHaiBen.equals("R")){
                     textureRegion = animationRight.getKeyFrame(0);
+                }
+                for(Waste w : GroundScreen.wastes){
+                    checkAndUpdateZIndex(this,w);
                 }
 
     }

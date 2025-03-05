@@ -1,6 +1,7 @@
 package Game.com;
 
 import Game.com.Actor.Player;
+import Game.com.Background.BagScreen;
 import Game.com.Background.GroundScreen;
 import Game.com.Background.MenuScreen;
 import Game.com.Background.SeaScreen;
@@ -19,9 +20,10 @@ public class Master extends Game{
     Stage stage;
     public GroundScreen groundScreen;
     public SeaScreen seaScreen;
+    public BagScreen bagScreen;
     static public int MAN_SPEED = 4;
-
     public Player player;
+
     static int status = 1;
     @Override
     public void create() {
@@ -33,6 +35,7 @@ public class Master extends Game{
         fontGenerator.dispose();
         groundScreen = new GroundScreen(this);
         seaScreen = new SeaScreen(this);
+        bagScreen = new BagScreen(this);
         this.setScreen(new MenuScreen(this));// goi man hinh moi
     }
     public void render(){
