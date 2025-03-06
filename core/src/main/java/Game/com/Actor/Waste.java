@@ -14,9 +14,10 @@ public class Waste extends MyActor {
     Texture texture3 = new Texture("rac3.png");
     Texture texture4 = new Texture("rac4.png");
     Texture[] wastes = new Texture[4];
+    public boolean hasEaten = false;
     public Waste(float x, float y, Stage s){
         super(x,y,s);
-        setSize(100,100);
+        setSize(50,50);
         Random random = new Random();
         Texture texture1 = new Texture("rac.png");
         Texture texture2 = new Texture("rac2.png");

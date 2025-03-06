@@ -25,7 +25,8 @@ public class Player extends MyActor {
     float timeSound = 0;
     boolean isPlaying = false;
     boolean isAlive = true;
-    String itemUse = "hands";
+    public String itemUse = "hands";
+    public float health = 100;
 
     public Player(float x, float y, Stage s) {
         super(x, y, s);

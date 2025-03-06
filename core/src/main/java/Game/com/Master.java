@@ -12,12 +12,26 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Random;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Master extends Game{
     public SpriteBatch batch;
     public BitmapFont font;
+    public BitmapFont smallFont;
     Stage stage;
+    Random random = new Random();
+    public float xyanua = 0;
+    public float tui_nylon = 0;
+    public float vo_chai_nhua = 0;
+    public float canh_cay = 0;
+    public float vo_do_hop = 0;
+    public float tao = 0;
+    public float khau_trang = 0;
+    public float canh_non = 0;
+    public float tien = 0;//very quan trong
     public GroundScreen groundScreen;
     public SeaScreen seaScreen;
     public BagScreen bagScreen;
@@ -33,6 +47,12 @@ public class Master extends Game{
         fontParameters.color = Color.RED;
         font = fontGenerator.generateFont(fontParameters);
         fontGenerator.dispose();
+        FreeTypeFontGenerator fontGenerator2 = new FreeTypeFontGenerator(Gdx.files.internal("Lonely Cake.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameters2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameters2.size = 24;
+        fontParameters2.color = Color.BLACK;
+        smallFont = fontGenerator2.generateFont(fontParameters2);
+        fontGenerator2.dispose();
         groundScreen = new GroundScreen(this);
         seaScreen = new SeaScreen(this);
         bagScreen = new BagScreen(this);

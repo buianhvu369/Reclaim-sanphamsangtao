@@ -23,7 +23,7 @@ public class BagScreen implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.WHITE);
+        ScreenUtils.clear(Color.BLACK);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
