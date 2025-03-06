@@ -6,6 +6,7 @@ import Game.com.Health;
 import Game.com.Master;
 import Game.com.ThanhHealth;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,6 +26,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GroundScreen implements Screen {
+    InputMultiplexer multiplexer;
     Master game;
     OrthographicCamera camera;
     Stage stage;
@@ -40,8 +42,11 @@ public class GroundScreen implements Screen {
     public static Array<Waste> wastes = new Array<>();
     public GroundScreen(Master game){
         this.game = game;
+        multiplexer = new InputMultiplexer();
         stage = new Stage();
         noMoveStage = new Stage();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(noMoveStage);
 
         random = new Random();
 
@@ -52,7 +57,7 @@ public class GroundScreen implements Screen {
         bagButtonImage = new Texture("buttonbag.png");
 
         if(game.player == null) {
-            game.player = new Player((float) (Gdx.graphics.getWidth() / 2), (float) (Gdx.graphics.getHeight() / 2), stage);
+            game.player = new Player(0, 0, stage);
 
         }
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -73,7 +78,8 @@ public class GroundScreen implements Screen {
     }
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
